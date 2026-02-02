@@ -62,24 +62,30 @@ python main.py
 ```
 .
 ├── main.py                 # 程序入口
-├── main_window.py          # 主窗口逻辑
-├── config.py               # 全局配置
-├── begin.py                # 初始化检查（创建默认配置）
+├── README.md
 │
-├── api_client.py           # API 通信（DeepSeek/SiliconFlow）
-├── talk.py                 # 对话管理器（气泡显示、打字效果）
-├── animation_manager.py    # 角色动画管理
+├── core/                   # 核心业务逻辑（数据、状态、AI记忆）
+│   ├── heart.py           # 好感度系统
+│   ├── memory_manager.py  # 长期记忆管理
+│   ├── history_manager.py # 对话历史管理
+│   └── time1.py           # 整点报时逻辑
 │
-├── heart.py                # 好感度系统
-├── memory_manager.py       # 长期记忆管理
-├── history_manager.py      # 对话历史管理
-├── history_dialog.py       # 历史记录对话框
+├── api/                    # 第三方接口层
+│   └── api_client.py      # DeepSeek/SiliconFlow API封装
 │
-├── setting.py              # 设置界面
-├── loader.py               # 配置加载工具
-├── look.py                 # 屏幕截图功能
-├── time1.py                # 整点报时器
-├── icon.py                 # 系统托盘图标
+├── ui/                     # 界面层（窗口、对话框、交互）
+│   ├── main_window.py     # 主窗口逻辑
+│   ├── history_dialog.py  # 历史记录对话框
+│   ├── setting.py         # 设置对话框
+│   ├── talk.py            # 对话气泡和对话管理器
+│   ├── animation_manager.py # 角色动画管理
+│   └── icon.py            # 系统托盘图标
+│
+├── utils/                  # 基础设施与工具
+│   ├── config.py          # 全局配置类
+│   ├── loader.py          # 配置加载工具
+│   ├── look.py            # 屏幕截图功能
+│   └── begin.py           # 初始化检查（创建默认配置）
 │
 ├── txt/                    # 配置目录（自动生成）
 │   ├── user_info.json      # 用户信息
@@ -96,12 +102,18 @@ python main.py
     ├── normal2.png         # 正常表情2（张嘴）
     ├── normal3.png         # 思考表情
     ├── normal4.png         # 闭眼表情
-    ├── unhappy1.png        # 不开心表情1
-    ├── unhappy2.png        # 不开心表情2
-    ├── unhappy3.png        # 不开心思考
-    ├── unhappy4.png        # 不开心闭眼
+    ├── unhappy1.png        # 不开心表情1（可选）
+    ├── unhappy2.png        # 不开心表情2（可选）
+    ├── unhappy3.png        # 不开心思考（可选）
+    ├── unhappy4.png        # 不开心闭眼（可选）
     └── icon.png            # 托盘图标
 ```
+
+**分层说明：**
+- **core/**：业务核心，处理数据持久化、AI记忆逻辑、好感度计算，不依赖UI层
+- **api/**：外部API封装，处理网络请求和响应解析
+- **ui/**：所有界面相关代码，依赖core层获取数据
+- **utils/**：基础工具，被所有层共享
 
 ## ⚙️ 配置说明
 
@@ -167,7 +179,7 @@ python main.py
 3. 当好感度低于阈值时会自动切换
 
 ### 调整好感度敏感度
-在 `heart.py` 中修改 `judge_change` 方法的 prompt，或调整 `Config.UNHAPPY_THRESHOLD`（默认 -20）。
+在 `core/heart.py` 中修改 `judge_change` 方法的 prompt，或调整 `utils/config.py` 中的 `UNHAPPY_THRESHOLD`（默认 -20）。
 
 ---
 

@@ -1,11 +1,11 @@
+# pyinstaller --onefile --noconsole --add-data "image;image" --icon=image/icon.ico main.py
 import sys
 from PyQt5.QtWidgets import QApplication
 from PyQt5 import QtCore
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
-import begin
-
-from main_window import DeskPetWindow
+from ui.main_window import DeskPetWindow
+from utils import begin
 
 def main():
     """主函数"""
